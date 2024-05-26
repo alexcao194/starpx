@@ -70,7 +70,7 @@ fun LoginScreen(
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = viewModel.password,
-                onValueChange = {password ->
+                onValueChange = { password ->
                     viewModel.onPasswordChange(password)
                 },
                 keyboardOptions = KeyboardOptions(

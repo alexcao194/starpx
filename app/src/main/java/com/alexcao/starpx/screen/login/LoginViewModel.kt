@@ -20,7 +20,6 @@ class LoginViewModel : ViewModel() {
         password = newPassword
     }
 
-
     fun login() {
         // Perform login logic here
     }
