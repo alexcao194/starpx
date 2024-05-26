@@ -1,4 +1,4 @@
-package com.alexcao.starpx.config.navigation
+package com.alexcao.starpx.navigation
 
 enum class Screen {
     HOME,
