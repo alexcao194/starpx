@@ -4,8 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.alexcao.starpx.navigation.Account
+import com.alexcao.starpx.repository.Repository
+import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    val repository: Repository
+) : ViewModel() {
     var username by mutableStateOf("")
         private set
 
@@ -21,6 +27,8 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login() {
-        // Perform login logic here
+        viewModelScope.launch {
+            repository.login(Account(username = username, password = password))
+        }
     }
 }
