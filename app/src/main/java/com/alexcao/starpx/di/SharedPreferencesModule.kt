@@ -2,8 +2,6 @@ package com.alexcao.starpx.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.alexcao.starpx.repository.Repository
-import com.amazonaws.mobile.client.AWSMobileClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
