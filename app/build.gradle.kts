@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.apollo.runtime)
+    implementation(libs.aws.android.sdk.core)
+    implementation(libs.aws.android.sdk.cognito)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

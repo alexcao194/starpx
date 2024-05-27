@@ -10,6 +10,7 @@ activityCompose = "1.8.0"
 composeBom = "2023.08.00"
 navigationCompose = "2.7.7"
 apollo = "3.8.4"
+aws = "2.20.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,7 +29,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 apollo-runtime = { group = "com.apollographql.apollo3", name = "apollo-runtime"}
-apollo-android-support = { group = "com.apollographql.apollo3", name = "apollo-android-support"}
+aws-android-sdk-core = { group = "com.amazonaws", name = "aws-android-sdk-core", version.ref = "aws" }
+aws-android-sdk-cognito = { group = "com.amazonaws", name = "aws-android-sdk-cognito", version.ref = "aws" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
