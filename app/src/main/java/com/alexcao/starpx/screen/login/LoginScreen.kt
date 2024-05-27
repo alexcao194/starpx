@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alexcao.starpx.R
@@ -32,7 +33,7 @@ import com.alexcao.starpx.R
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = LoginViewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     Scaffold { padding ->
         Column(

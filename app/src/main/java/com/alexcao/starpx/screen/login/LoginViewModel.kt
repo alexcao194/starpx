@@ -1,5 +1,6 @@
 package com.alexcao.starpx.screen.login
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,9 +8,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.alexcao.starpx.model.Account
 import com.alexcao.starpx.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel(
-    private val repository: Repository = Repository(),
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: Repository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
     var username by mutableStateOf("")
         private set

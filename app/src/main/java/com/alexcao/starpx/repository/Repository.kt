@@ -5,8 +5,11 @@ import com.alexcao.starpx.model.Account
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.results.SignInResult
+import javax.inject.Inject
 
-class Repository {
+class Repository @Inject constructor(
+    private val awsMobileClient: AWSMobileClient
+) {
     fun login(account: Account) {
         val callback = object : Callback<SignInResult> {
             override fun onResult(result: SignInResult) {
@@ -17,6 +20,6 @@ class Repository {
                 Log.e("SignInResult", e.toString())
             }
         }
-       AWSMobileClient.getInstance().signIn(account.username, account.password, null, callback)
+       awsMobileClient.signIn(account.username, account.password, null, callback)
     }
 }
