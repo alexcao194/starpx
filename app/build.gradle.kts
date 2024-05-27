@@ -1,6 +1,8 @@
 plugins {
+    alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.apollographql.apollo3)
 }
 
@@ -61,11 +63,14 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
 
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
     implementation(libs.apollo.runtime)
     implementation(libs.aws.android.sdk.core)
     implementation(libs.aws.android.sdk.cognito)
     implementation(libs.aws.android.sdk.mobile.client)
 
+    kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

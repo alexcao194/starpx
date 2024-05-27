@@ -9,6 +9,9 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2023.08.00"
 navigationCompose = "2.7.7"
+ksp = "1.9.23-1.0.20"
+hilt = "2.51"
+hitl_navigation_compose = "1.2.0"
 apollo = "3.8.4"
 aws = "2.20.1"
 
@@ -28,6 +31,9 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hitl_navigation_compose" }
 apollo-runtime = { group = "com.apollographql.apollo3", name = "apollo-runtime"}
 aws-android-sdk-core = { group = "com.amazonaws", name = "aws-android-sdk-core", version.ref = "aws" }
 aws-android-sdk-cognito = { group = "com.amazonaws", name = "aws-android-sdk-cognito", version.ref = "aws" }
@@ -36,4 +42,7 @@ aws-android-sdk-mobile-client = { group = "com.amazonaws", name = "aws-android-s
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 apollographql-apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo" }
