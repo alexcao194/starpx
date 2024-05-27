@@ -10,7 +10,7 @@ import com.alexcao.starpx.repository.Repository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    val repository: Repository
+    private val repository: Repository = Repository()
 ) : ViewModel() {
     var username by mutableStateOf("")
         private set
