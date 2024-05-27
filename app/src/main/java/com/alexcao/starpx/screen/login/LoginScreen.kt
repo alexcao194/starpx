@@ -16,6 +16,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,12 +29,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alexcao.starpx.R
+import com.alexcao.starpx.navigation.NavigationItem
+import com.alexcao.starpx.screen.home.HomeScreen
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val loginUiState = viewModel.loginUiState.collectAsState()
+
+    if (loginUiState.value.isSuccessful) {
+        navController.navigate(NavigationItem.Home.route)
+    }
+
     Scaffold { padding ->
         Column(
             modifier = Modifier

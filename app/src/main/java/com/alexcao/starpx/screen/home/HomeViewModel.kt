@@ -9,6 +9,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Collections.addAll
@@ -20,7 +21,7 @@ class HomeViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
-    val homeUiState: StateFlow<HomeUiState> = _homeUiState
+    val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
     init {
         loadMore()
