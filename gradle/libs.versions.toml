@@ -33,5 +33,4 @@ apollo-android-support = { group = "com.apollographql.apollo3", name = "apollo-a
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-apollo-gradle-plugin = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 apollographql-apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo" }
