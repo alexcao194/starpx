@@ -1,15 +1,12 @@
 package com.alexcao.starpx.screen.login
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.alexcao.starpx.navigation.Account
+import com.alexcao.starpx.model.Account
 import com.alexcao.starpx.repository.Repository
-import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val repository: Repository = Repository(),

@@ -1,4 +1,4 @@
-package com.alexcao.starpx.navigation
+package com.alexcao.starpx.model
 
 data class Account(
     val username: String,

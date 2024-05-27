@@ -1,11 +1,10 @@
 package com.alexcao.starpx.repository
 
 import android.util.Log
-import com.alexcao.starpx.navigation.Account
+import com.alexcao.starpx.model.Account
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.results.SignInResult
-import com.amazonaws.mobile.config.AWSConfiguration
 
 class Repository {
     fun login(account: Account) {
