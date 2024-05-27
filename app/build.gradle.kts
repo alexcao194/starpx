@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.apollo.runtime)
     implementation(libs.aws.android.sdk.core)
     implementation(libs.aws.android.sdk.cognito)
+    implementation(libs.aws.android.sdk.mobile.client)
 
 
     testImplementation(libs.junit)

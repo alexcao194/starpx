@@ -31,6 +31,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 apollo-runtime = { group = "com.apollographql.apollo3", name = "apollo-runtime"}
 aws-android-sdk-core = { group = "com.amazonaws", name = "aws-android-sdk-core", version.ref = "aws" }
 aws-android-sdk-cognito = { group = "com.amazonaws", name = "aws-android-sdk-cognito", version.ref = "aws" }
+aws-android-sdk-mobile-client = { group = "com.amazonaws", name = "aws-android-sdk-mobile-client", version.ref = "aws" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
