@@ -1,5 +1,7 @@
 package com.alexcao.starpx.screen.login
 
+import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,7 +12,7 @@ import com.alexcao.starpx.repository.Repository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val repository: Repository = Repository()
+    private val repository: Repository = Repository(),
 ) : ViewModel() {
     var username by mutableStateOf("")
         private set
@@ -27,8 +29,7 @@ class LoginViewModel(
     }
 
     fun login() {
-        viewModelScope.launch {
-            repository.login(Account(username = username, password = password))
-        }
+        Log.d("LoginViewModel", "Logging in with username: $username and password: $password")
+        repository.login(Account(username = username, password = password))
     }
 }

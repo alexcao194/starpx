@@ -9,17 +9,28 @@ import com.amazonaws.mobile.config.AWSConfiguration
 import org.json.JSONObject
 
 val awsConfiguration = AWSConfiguration(
+    // aws cognito client id = 34fbjieukpdaq7m6q35ge10ei
+    // aws cognito pool id = eu-central-1_OW0g61kEk
     JSONObject(
         """
         {
+            "UserAgent": "aws-amplify/0.1.x",
+            "Version": "1.0",
             "IdentityManager": {
                 "Default": {}
+            },
+            "CredentialsProvider": {
+                "CognitoIdentity": {
+                    "Default": {
+                        "PoolId": "eu-central-1:OW0g61kEk",
+                        "Region": "eu-central-1"
+                    }
+                }
             },
             "CognitoUserPool": {
                 "Default": {
                     "PoolId": "eu-central-1_OW0g61kEk",
-                    "AppClientId": "34fbjieukpdaq7m6q35ge10ei",
-                    "Region": "us-west-2"
+                    "AppClientId": "34fbjieukpdaq7m6q35ge10ei"
                 }
             }
         }
