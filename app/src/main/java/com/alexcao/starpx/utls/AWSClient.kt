@@ -28,30 +28,17 @@ class AWSClient {
         const val TAG = "AWSClient"
     }
 
-    private val awsConfiguration = AWSConfiguration(
-        JSONObject(
-            """
-        {
-            "UserAgent": "aws-amplify/5.0.4",
-            "Version": "1.0",
-            "CredentialsProvider": "CognitoIdentity",
-            "IdentityManager": {
-                "Default": {
-                    "PoolId": "eu-central-1_OW0g61kEk",
-                    "Region": "eu-central-1"
-                }
-            },
-            "CognitoUserPool": {
-                "Default": {
-                    "PoolId": "eu-central-1_OW0g61kEk",
-                    "AppClientId": "34fbjieukpdaq7m6q35ge10ei",
-                    "Region": "eu-central-1"
-                }
-            }
-        }
-        """.trimIndent()
-        )
-    )
+    private lateinit var awsConfiguration: AWSConfiguration
+
+    fun getAWSConfiguration(context: Context) {
+        val inputStream = context.assets.open("awsconfiguration.json")
+        val size = inputStream.available()
+        val buffer = ByteArray(size)
+        inputStream.read(buffer)
+        inputStream.close()
+        val json = String(buffer)
+        awsConfiguration = AWSConfiguration(JSONObject(json))
+    }
 
     suspend fun loginWithAWS(
         context: Context,

@@ -18,9 +18,11 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideRepository(@ApplicationContext context: Context, rxPreferences: RxPreferences): Repository {
+        val awsClient = AWSClient()
+        awsClient.getAWSConfiguration(context)
         return Repository(
             context = context,
-            awsClient = AWSClient(),
+            awsClient = awsClient,
             rxPreferences = rxPreferences
         )
     }
