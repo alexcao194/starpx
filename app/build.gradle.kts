@@ -83,6 +83,7 @@ dependencies {
 
 apollo {
     service("service") {
+        generateKotlinModels.set(true)
         packageName = "com.alexcao.starpx"
     }
 }
