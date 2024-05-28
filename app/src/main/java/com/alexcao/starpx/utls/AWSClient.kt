@@ -4,51 +4,135 @@ import android.content.Context
 import android.util.Log
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.AWSMobileClient
+import com.amazonaws.mobile.client.UserState
 import com.amazonaws.mobile.client.UserStateDetails
 import com.amazonaws.mobile.config.AWSConfiguration
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
-val awsConfiguration = AWSConfiguration(
-    // aws cognito client id = 34fbjieukpdaq7m6q35ge10ei
-    // aws cognito pool id = eu-central-1_OW0g61kEk
-    JSONObject(
-        """
+class AWSClient {
+
+    companion object {
+        const val TAG = "AWSClient"
+    }
+
+    private val awsConfiguration = AWSConfiguration(
+        JSONObject(
+            """
         {
-            "UserAgent": "aws-amplify/0.1.x",
+            "UserAgent": "aws-amplify/5.0.4",
             "Version": "1.0",
+            "CredentialsProvider": "CognitoIdentity",
             "IdentityManager": {
-                "Default": {}
-            },
-            "CredentialsProvider": {
-                "CognitoIdentity": {
-                    "Default": {
-                        "PoolId": "eu-central-1:OW0g61kEk",
-                        "Region": "eu-central-1"
-                    }
+                "Default": {
+                    "PoolId": "eu-central-1_OW0g61kEk",
+                    "Region": "eu-central-1"
                 }
             },
             "CognitoUserPool": {
                 "Default": {
                     "PoolId": "eu-central-1_OW0g61kEk",
-                    "AppClientId": "34fbjieukpdaq7m6q35ge10ei"
+                    "AppClientId": "34fbjieukpdaq7m6q35ge10ei",
+                    "Region": "eu-central-1"
                 }
             }
         }
         """.trimIndent()
+        )
     )
-)
 
-fun initializeAWSMobileClient(context: Context) {
+    suspend fun loginWithAWS(
+        context: Context,
+        username: String,
+        password: String,
+    ): CognitoUserSession? {
+        return withContext(Dispatchers.IO) {
+            suspendCancellableCoroutine { continuation ->
+                val callback: Callback<UserStateDetails> = object : Callback<UserStateDetails> {
+                    override fun onResult(userStateDetails: UserStateDetails) {
+                        when (userStateDetails.userState) {
+                            UserState.SIGNED_OUT -> {
+                                val userPool =
+                                    CognitoUserPool(
+                                        context,
+                                        AWSMobileClient.getInstance().configuration
+                                    )
+                                userPool.getUser(username).getSessionInBackground(object :
+                                    AuthenticationHandler {
+                                    override fun onSuccess(
+                                        userSession: CognitoUserSession?,
+                                        newDevice: CognitoDevice?
+                                    ) {
+                                        Log.d(TAG, "onSuccess: User session: $userSession")
+                                        if (userSession != null) {
+                                            continuation.resume(userSession)
+                                        } else {
+                                            continuation.resumeWithException(Exception("User session is null"))
+                                        }
+                                    }
 
-    val callback: Callback<UserStateDetails> = object : Callback<UserStateDetails> {
-        override fun onResult(result: UserStateDetails) {
-            Log.d("AWSMobileClient","AWSMobileClient initialized")
-        }
+                                    override fun onFailure(exception: Exception?) {
+                                        Log.e(TAG, "onFailure: ", exception)
+                                        continuation.resumeWithException(
+                                            exception ?: Exception("Unknown error")
+                                        )
+                                    }
 
-        override fun onError(e: Exception) {
-            Log.e("AWSMobileClient", e.toString())
+                                    override fun getAuthenticationDetails(
+                                        authenticationContinuation: AuthenticationContinuation?,
+                                        userId: String?
+                                    ) {
+                                        authenticationContinuation?.setAuthenticationDetails(
+                                            AuthenticationDetails(
+                                                username,
+                                                password,
+                                                null
+                                            )
+                                        )
+                                        Log.d(TAG, "getAuthenticationDetails: ")
+                                        authenticationContinuation?.continueTask()
+                                    }
+
+                                    override fun authenticationChallenge(continuation: ChallengeContinuation?) {
+                                        // Handle authentication challenge
+                                        Log.d(TAG, "authenticationChallenge: $continuation")
+                                    }
+
+                                    override fun getMFACode(continuation: MultiFactorAuthenticationContinuation?) {
+                                        // Handle multi-factor authentication if needed
+                                        Log.d(TAG, "getMFACode: $continuation")
+                                    }
+                                })
+                            }
+
+                            else -> {
+                                // User already signed in or in some other state
+                                Log.d(TAG, "onResult: ${userStateDetails.userState}")
+                                continuation.resumeWithException(Exception("User already signed in"))
+                            }
+                        }
+                    }
+
+                    override fun onError(e: Exception?) {
+                        // Error occurred during initialization
+                        Log.e(TAG, "Initialization error.", e)
+                    }
+                }
+
+                AWSMobileClient.getInstance().initialize(context, awsConfiguration, callback)
+            }
         }
     }
-
-    AWSMobileClient.getInstance().initialize(context, awsConfiguration, callback)
 }

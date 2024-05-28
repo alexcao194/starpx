@@ -67,7 +67,7 @@ dependencies {
     implementation(libs.hilt.navigation)
     implementation(libs.apollo.runtime)
     implementation(libs.aws.android.sdk.core)
-    implementation(libs.aws.android.sdk.cognito)
+    implementation(libs.aws.android.sdk.cognitoidentityprovider)
     implementation(libs.aws.android.sdk.mobile.client)
 
     kapt(libs.hilt.compiler)
