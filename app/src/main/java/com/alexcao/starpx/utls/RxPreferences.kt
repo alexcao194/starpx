@@ -9,6 +9,7 @@ class RxPreferences @Inject constructor(
     companion object {
         const val KEY_USERNAME = "username"
         const val KEY_PASSWORD = "password"
+        const val KEY_TOKEN = "token"
     }
 
     fun saveUsername(username: String) {
@@ -25,5 +26,13 @@ class RxPreferences @Inject constructor(
 
     fun getPassword(): String {
         return sharedPreferences.getString(KEY_PASSWORD, "") ?: ""
+    }
+
+    fun saveJwt(jwt: String) {
+        sharedPreferences.edit().putString(KEY_TOKEN, jwt).apply()
+    }
+
+    fun getJwt(): String {
+        return sharedPreferences.getString(KEY_TOKEN, "") ?: ""
     }
 }
