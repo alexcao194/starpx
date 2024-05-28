@@ -1,10 +1,14 @@
 package com.alexcao.starpx.di
 
+import android.content.Context
 import com.alexcao.starpx.repository.Repository
+import com.alexcao.starpx.utls.AWSClient
+import com.alexcao.starpx.utls.RxPreferences
 import com.amazonaws.mobile.client.AWSMobileClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -13,9 +17,11 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Singleton
     @Provides
-    fun provideRepository(): Repository {
+    fun provideRepository(@ApplicationContext context: Context, rxPreferences: RxPreferences): Repository {
         return Repository(
-            awsMobileClient = AWSMobileClient.getInstance()
+            context = context,
+            awsClient = AWSClient(),
+            rxPreferences = rxPreferences
         )
     }
 }

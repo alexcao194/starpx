@@ -53,7 +53,6 @@ class LoginViewModel @Inject constructor(
         rxPreferences.savePassword(password)
         viewModelScope.launch {
             _loginUiState.update { it.copy(isLoading = true) }
-            delay(2000)
             repository.login(Account(username = username, password = password))
             _loginUiState.update { it.copy(isLoading = false, isSuccessful = true) }
         }

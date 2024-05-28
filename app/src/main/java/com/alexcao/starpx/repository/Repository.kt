@@ -1,25 +1,26 @@
 package com.alexcao.starpx.repository
 
-import android.util.Log
+import android.content.Context
 import com.alexcao.starpx.model.Account
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobile.client.Callback
-import com.amazonaws.mobile.client.results.SignInResult
+import com.alexcao.starpx.utls.AWSClient
+import com.alexcao.starpx.utls.RxPreferences
 import javax.inject.Inject
 
 class Repository @Inject constructor(
-    private val awsMobileClient: AWSMobileClient
+    private val awsClient: AWSClient,
+    private val context: Context,
+    private val rxPreferences: RxPreferences
 ) {
-    fun login(account: Account) {
-        val callback = object : Callback<SignInResult> {
-            override fun onResult(result: SignInResult) {
-                Log.d("SignInResult", result.toString())
-            }
+    companion object {
+        const val TAG = "Repository"
+    }
 
-            override fun onError(e: Exception) {
-                Log.e("SignInResult", e.toString())
-            }
-        }
-       awsMobileClient.signIn(account.username, account.password, null, callback)
+    suspend fun login(account: Account) {
+        val username = account.username
+        val password = account.password
+        val session = awsClient.loginWithAWS(context, username, password)
+        val jwt = session?.accessToken?.jwtToken ?: throw Exception("Failed to login")
+        rxPreferences.saveJwt(jwt)
+        return;
     }
 }
