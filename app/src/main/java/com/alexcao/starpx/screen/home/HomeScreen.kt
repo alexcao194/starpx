@@ -25,7 +25,7 @@ fun HomeScreen(
             columns = GridCells.Adaptive(minSize = 128.dp)
         ) {
             items(data.size) {index ->
-                ImageCell(thumbnail = data[index].thumbnail)
+                ImageCell(thumbnail = data[index].imageDetail.thumbs.medium)
             }
         }
     }
