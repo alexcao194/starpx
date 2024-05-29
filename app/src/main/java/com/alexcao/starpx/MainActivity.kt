@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StarpxTheme {
-                AppNavHost()
+                AppNavHost(context = applicationContext)
             }
         }
     }

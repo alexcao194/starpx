@@ -1,5 +1,6 @@
 package com.alexcao.starpx.screen.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,11 +33,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import com.alexcao.starpx.R
 import com.alexcao.starpx.navigation.NavigationItem
-import com.alexcao.starpx.screen.home.HomeScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -44,6 +43,8 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val loginUiState = viewModel.loginUiState.collectAsState()
+
     LaunchedEffect(Unit) {
         viewModel.loginUiState.collectLatest {
             if (it.isSuccessful) {
@@ -56,7 +57,13 @@ fun LoginScreen(
         }
     }
 
-    val loginUiState = viewModel.loginUiState.collectAsState()
+    val error = loginUiState.value.error
+    LaunchedEffect(error) {
+        error?.let {
+            Toast.makeText(navController.context, it, Toast.LENGTH_SHORT).show()
+            viewModel.clearError()
+        }
+    }
 
     Scaffold { padding ->
         Box(

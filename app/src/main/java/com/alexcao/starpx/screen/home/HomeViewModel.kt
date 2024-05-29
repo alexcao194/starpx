@@ -22,12 +22,20 @@ class HomeViewModel @Inject constructor(
         loadMore()
     }
 
-    fun loadMore() {
+    fun clearError() {
+        _homeUiState.update { it.copy(error = null) }
+    }
 
+    fun loadMore() {
         viewModelScope.launch {
             _homeUiState.update { it.copy(isLoading = true) }
             val newItems = _homeUiState.value.data.toMutableList()
-            newItems.addAll(repository.getImages())
+            try {
+                newItems.addAll(repository.getImages())
+            } catch (e: Exception) {
+                _homeUiState.update { it.copy(isLoading = false, error = e.message ?: "An error occurred") }
+                return@launch
+            }
             _homeUiState.update {
                 it.copy(
                     isLoading = false,

@@ -45,7 +45,7 @@ class Repository @Inject constructor(
         val response = apolloClient.query(
             GetImageSetSummariesQuery(
                 customerId = "aabb1234",
-                limit = Optional.present(10),
+                limit = Optional.present(30),
                 nextToken = Optional.presentIfNotNull(rxPreferences.getNextToken())
             )
         ).execute()

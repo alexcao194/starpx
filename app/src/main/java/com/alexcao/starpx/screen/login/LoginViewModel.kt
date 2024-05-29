@@ -47,13 +47,22 @@ class LoginViewModel @Inject constructor(
         password = newPassword
     }
 
+    fun clearError() {
+        _loginUiState.update { it.copy(error = null) }
+    }
+
     fun login() {
         Log.d("LoginViewModel", "Logging in with username: $username and password: $password")
         rxPreferences.saveUsername(username)
         rxPreferences.savePassword(password)
         viewModelScope.launch {
             _loginUiState.update { it.copy(isLoading = true) }
-            repository.login(Account(username = username, password = password))
+            try {
+                repository.login(Account(username = username, password = password))
+            } catch (e: Exception) {
+                _loginUiState.update { it.copy(isLoading = false, error = e.message ?: "Login failed") }
+                return@launch
+            }
             _loginUiState.update { it.copy(isLoading = false, isSuccessful = true) }
         }
     }

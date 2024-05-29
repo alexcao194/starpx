@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -42,7 +43,9 @@ fun HomeScreen(
     Scaffold(
         containerColor = Color.Black
     ) { padding ->
-        Column {
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             LazyVerticalGrid(
                 modifier = Modifier.padding(padding),
                 columns = GridCells.Adaptive(minSize = 128.dp),
