@@ -2,9 +2,9 @@
 
 package com.alexcao.starpx.repository
 
-import GetImageSetSummariesQuery
 import android.content.Context
 import android.util.Log
+import com.alexcao.starpx.GetImageSetSummariesQuery
 import com.alexcao.starpx.model.Account
 import com.alexcao.starpx.model.GetImageSetSummariesResponse
 import com.alexcao.starpx.model.ImageSet
@@ -28,6 +28,7 @@ class Repository @Inject constructor(
 
     companion object {
         const val TAG = "Repository"
+        const val NETWORK_PAGE_SIZE = 30
     }
 
     suspend fun login(account: Account) {
@@ -42,14 +43,14 @@ class Repository @Inject constructor(
     }
 
     suspend fun getImages(
-        token: String,
+        token: String?,
         limit: Int,
     ): List<ImageSet> {
         val response = apolloClient.query(
             GetImageSetSummariesQuery(
                 customerId = "aabb1234",
                 limit = Optional.present(limit),
-                nextToken = Optional.present(token)
+                nextToken = Optional.presentIfNotNull(token)
             )
         ).execute()
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.ImageLoader
 import coil.compose.AsyncImage
 
@@ -28,17 +29,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     context: Context
 ) {
-    val homeUiState = viewModel.homeUiState.collectAsState()
-    val data = homeUiState.value.data
-    val isLoading = homeUiState.value.isLoading
-    val error = homeUiState.value.error
-
-    LaunchedEffect(error) {
-        error?.let {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            viewModel.clearError()
-        }
-    }
+    val imageSets = viewModel.pagingDataFlow.collectAsLazyPagingItems()
 
     Scaffold(
         containerColor = Color.Black
@@ -51,27 +42,48 @@ fun HomeScreen(
                 columns = GridCells.Adaptive(minSize = 128.dp),
             ) {
                 items(
-                    data.size,
-                    key = { index -> data[index].setId }
+                    imageSets.itemCount,
+                    key = { index -> imageSets[index]!!.setId }
                 ) { index ->
                     ImageCell(
                         modifier = Modifier.padding(2.dp),
-                        thumbnail = data[index].imageDetail.thumbs.small,
+                        thumbnail = imageSets[index]!!.imageDetail.thumbs.small,
                         context = context
                     )
                 }
+
+                when {
+                    imageSets.loadState.refresh is androidx.paging.LoadState.Loading -> {
+                        item {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    imageSets.loadState.append is androidx.paging.LoadState.Loading -> {
+                        item {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    imageSets.loadState.refresh is androidx.paging.LoadState.Error -> {
+                        val error = imageSets.loadState.refresh as androidx.paging.LoadState.Error
+                        item {
+                            Text(
+                                text = "Error: ${error.error.localizedMessage}",
+                                color = Color.Red
+                            )
+                        }
+                    }
+                    imageSets.loadState.append is androidx.paging.LoadState.Error -> {
+                        val error = imageSets.loadState.append as androidx.paging.LoadState.Error
+                        item {
+                            Text(
+                                text = "Error: ${error.error.localizedMessage}",
+                                color = Color.Red
+                            )
+                        }
+                    }
+                }
             }
 
-            if (isLoading) {
-                CircularProgressIndicator()
-            }
-
-            if (error != null) {
-                Text(
-                    text = error,
-                    color = Color.White
-                )
-            }
         }
     }
 }
