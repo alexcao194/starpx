@@ -17,6 +17,8 @@ aws = "2.20.1"
 serialization = "1.9.22"
 serialization_json = "1.6.3"
 coil = "2.6.0"
+paging_runtime = "3.3.0"
+paging_compose = "3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,12 +39,14 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hitl_navigation_compose" }
-apollo-runtime = { group = "com.apollographql.apollo3", name = "apollo-runtime"}
+apollo-runtime = { group = "com.apollographql.apollo3", name = "apollo-runtime" }
 aws-android-sdk-core = { group = "com.amazonaws", name = "aws-android-sdk-core", version.ref = "aws" }
 aws-android-sdk-cognitoidentityprovider = { group = "com.amazonaws", name = "aws-android-sdk-cognitoidentityprovider", version.ref = "aws" }
 aws-android-sdk-mobile-client = { group = "com.amazonaws", name = "aws-android-sdk-mobile-client", version.ref = "aws" }
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization_json" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_runtime" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging_compose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

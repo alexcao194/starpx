@@ -72,6 +72,8 @@ dependencies {
     implementation(libs.aws.android.sdk.mobile.client)
     implementation(libs.kotlinx.serialization)
     implementation(libs.coil.compose)
+    implementation(libs.paging.compose)
+    implementation(libs.paging.runtime)
 
     kapt(libs.hilt.compiler)
 
@@ -86,7 +88,6 @@ dependencies {
 
 apollo {
     service("service") {
-        generateKotlinModels.set(true)
-        packageName = "com.alexcao.starpx"
+        packageNamesFromFilePaths()
     }
 }
