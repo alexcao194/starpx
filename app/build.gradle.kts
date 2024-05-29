@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.apollographql.apollo3)
+    alias(libs.plugins.jetbrains.kotlinx.serialization)
 }
 
 android {
@@ -69,6 +70,8 @@ dependencies {
     implementation(libs.aws.android.sdk.core)
     implementation(libs.aws.android.sdk.cognitoidentityprovider)
     implementation(libs.aws.android.sdk.mobile.client)
+    implementation(libs.kotlinx.serialization)
+    implementation(libs.coil)
 
     kapt(libs.hilt.compiler)
 
