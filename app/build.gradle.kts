@@ -88,6 +88,7 @@ dependencies {
 
 apollo {
     service("service") {
+        generateKotlinModels.set(true)
         packageNamesFromFilePaths()
     }
 }

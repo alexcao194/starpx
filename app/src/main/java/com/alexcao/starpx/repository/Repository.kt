@@ -2,9 +2,9 @@
 
 package com.alexcao.starpx.repository
 
+import GetImageSetSummariesQuery
 import android.content.Context
 import android.util.Log
-import com.alexcao.starpx.GetImageSetSummariesQuery
 import com.alexcao.starpx.model.Account
 import com.alexcao.starpx.model.GetImageSetSummariesResponse
 import com.alexcao.starpx.model.ImageSet
@@ -41,12 +41,15 @@ class Repository @Inject constructor(
         return;
     }
 
-    suspend fun getImages(): List<ImageSet> {
+    suspend fun getImages(
+        token: String,
+        limit: Int,
+    ): List<ImageSet> {
         val response = apolloClient.query(
             GetImageSetSummariesQuery(
                 customerId = "aabb1234",
-                limit = Optional.present(30),
-                nextToken = Optional.presentIfNotNull(rxPreferences.getNextToken())
+                limit = Optional.present(limit),
+                nextToken = Optional.present(token)
             )
         ).execute()
 
@@ -63,5 +66,9 @@ class Repository @Inject constructor(
         }
 
         return emptyList()
+    }
+
+    fun getNextToken(): String? {
+        return rxPreferences.getNextToken()
     }
 }
