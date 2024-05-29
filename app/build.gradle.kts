@@ -71,7 +71,7 @@ dependencies {
     implementation(libs.aws.android.sdk.cognitoidentityprovider)
     implementation(libs.aws.android.sdk.mobile.client)
     implementation(libs.kotlinx.serialization)
-    implementation(libs.coil)
+    implementation(libs.coil.compose)
 
     kapt(libs.hilt.compiler)
 
