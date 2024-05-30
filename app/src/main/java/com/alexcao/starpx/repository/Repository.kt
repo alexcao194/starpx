@@ -31,6 +31,8 @@ class Repository @Inject constructor(
         const val NETWORK_PAGE_SIZE = 30
     }
 
+
+
     suspend fun login(account: Account) {
         val username = account.username
         val password = account.password
@@ -40,7 +42,7 @@ class Repository @Inject constructor(
         Log.d(TAG, "login: $jwt")
         rxPreferences.saveJwt(jwt)
         rxPreferences.saveRefreshToken(refreshToken)
-        apolloClient = getApolloClient(token = jwt)
+        apolloClient = getApolloClient(token = jwt, repository = this)
         return;
     }
 
@@ -73,5 +75,13 @@ class Repository @Inject constructor(
 
     fun getNextToken(): String? {
         return rxPreferences.getNextToken()
+    }
+
+    fun getJwt(): String? {
+        return rxPreferences.getJwt()
+    }
+
+    fun getRefreshToken(): String? {
+        return rxPreferences.getRefreshToken()
     }
 }

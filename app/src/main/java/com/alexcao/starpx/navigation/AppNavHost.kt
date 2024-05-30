@@ -18,7 +18,7 @@ fun AppNavHost(
     context: Context
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, NavigationItem.Login.route, modifier = modifier) {
+    NavHost(navController = navController, NavigationItem.Home.route, modifier = modifier) {
         composable(NavigationItem.Home.route) {
             HomeScreen(
                 navController = navController,
