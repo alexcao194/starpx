@@ -28,6 +28,7 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import com.alexcao.starpx.navigation.NavigationItem
 import com.alexcao.starpx.screen.home.component.ImageCell
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(
@@ -77,6 +78,13 @@ fun HomeScreen(
 
                     imageSets.loadState.refresh is LoadState.Error -> {
                         val error = imageSets.loadState.refresh as LoadState.Error
+
+                        navController.navigate(NavigationItem.Home.route) {
+                            popUpTo(NavigationItem.Login.route) {
+                                inclusive = true
+                            }
+                        }
+
                         item {
                             Text(
                                 text = "Error: ${error.error.localizedMessage}",

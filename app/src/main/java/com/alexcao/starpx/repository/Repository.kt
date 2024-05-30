@@ -24,14 +24,21 @@ class Repository @Inject constructor(
     private val rxPreferences: RxPreferences
 ) {
 
-    private lateinit var apolloClient: ApolloClient
+    private var apolloClient: ApolloClient? = null
 
     companion object {
         const val TAG = "Repository"
         const val NETWORK_PAGE_SIZE = 30
     }
 
+    init {
+        awsClient.getAWSConfiguration(context)
+        val jwt = rxPreferences.getJwt()
 
+        if (jwt != null) {
+            apolloClient = getApolloClient(token = jwt, repository = this)
+        }
+    }
 
     suspend fun login(account: Account) {
         val username = account.username
@@ -50,15 +57,20 @@ class Repository @Inject constructor(
         token: String?,
         limit: Int,
     ): List<ImageSet> {
-        val response = apolloClient.query(
+
+        if (apolloClient == null) {
+            throw Exception("Apollo client is not initialized")
+        }
+
+        val response = apolloClient?.query(
             GetImageSetSummariesQuery(
                 customerId = "aabb1234",
                 limit = Optional.present(limit),
                 nextToken = Optional.presentIfNotNull(token)
             )
-        ).execute()
+        )?.execute()
 
-        val jsonResponse = response.data?.toJsonString()
+        val jsonResponse = response?.data?.toJsonString()
         jsonResponse?.let { json ->
             Log.d(TAG, "getImages: $json")
             val parsedResponse = Json.decodeFromString<GetImageSetSummariesResponse>(json)
