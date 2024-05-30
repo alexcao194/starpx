@@ -33,4 +33,8 @@ class HomeViewModel @Inject constructor(
         ) {
             ImagePagingSource(repository)
         }.flow.cachedIn(viewModelScope)
+
+    fun logout() {
+        repository.logout()
+    }
 }

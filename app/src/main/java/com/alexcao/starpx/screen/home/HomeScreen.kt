@@ -39,7 +39,21 @@ fun HomeScreen(
     val imageSets = viewModel.pagingDataFlow.collectAsLazyPagingItems()
 
     Scaffold(
-        containerColor = Color.Black
+        containerColor = Color.Black,
+        floatingActionButton = {
+            Button(
+                onClick = {
+                    viewModel.logout()
+                    navController.navigate(NavigationItem.Login.route) {
+                        popUpTo(NavigationItem.Home.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            ) {
+                Text(text = "Logout")
+            }
+        }
     ) { padding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally

@@ -96,4 +96,8 @@ class Repository @Inject constructor(
     fun getRefreshToken(): String? {
         return rxPreferences.getRefreshToken()
     }
+
+    fun logout() {
+        rxPreferences.clear()
+    }
 }

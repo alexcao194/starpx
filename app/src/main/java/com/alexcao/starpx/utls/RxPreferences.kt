@@ -53,4 +53,8 @@ class RxPreferences @Inject constructor(
     fun getRefreshToken(): String? {
         return sharedPreferences.getString(KEY_REFRESH_TOKEN, "")
     }
+
+    fun clear() {
+        sharedPreferences.edit().clear().apply()
+    }
 }
