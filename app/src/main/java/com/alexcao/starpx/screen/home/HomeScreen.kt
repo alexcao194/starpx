@@ -27,6 +27,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import com.alexcao.starpx.navigation.NavigationItem
+import com.alexcao.starpx.screen.home.component.ImageCell
 
 @Composable
 fun HomeScreen(
@@ -44,7 +45,7 @@ fun HomeScreen(
         ) {
             LazyVerticalGrid(
                 modifier = Modifier.padding(padding),
-                columns = GridCells.Adaptive(minSize = 128.dp),
+                columns = GridCells.Fixed(3),
             ) {
                 items(
                     imageSets.itemCount,
@@ -97,25 +98,5 @@ fun HomeScreen(
             }
 
         }
-    }
-}
-
-@Composable
-fun ImageCell(
-    modifier: Modifier = Modifier,
-    thumbnail: String,
-    context: Context,
-    onClick: () -> Unit
-) {
-    Button(onClick = {
-        onClick()
-    }) {
-        AsyncImage(
-            modifier = modifier,
-            model = thumbnail,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            imageLoader = ImageLoader(context),
-        )
     }
 }
