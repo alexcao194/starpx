@@ -29,6 +29,8 @@ import coil.compose.AsyncImage
 import com.alexcao.starpx.navigation.NavigationItem
 import com.alexcao.starpx.screen.home.component.ImageCell
 import kotlinx.coroutines.flow.collectLatest
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun HomeScreen(
@@ -70,8 +72,12 @@ fun HomeScreen(
                         thumbnail = imageSets[index]!!.imageDetail.thumbs.small,
                         context = context,
                         onClick = {
+                            val encodedUrl = URLEncoder.encode(
+                                imageSets[index]!!.imageDetail.fullUrl,
+                                StandardCharsets.UTF_8.toString(),
+                            )
                             navController.navigate(
-                                "${NavigationItem.ImageDetail.route}?url=${imageSets[index]!!.imageDetail.fullUrl}"
+                                "${NavigationItem.ImageDetail.route}/$encodedUrl"
                             )
                         }
                     )
