@@ -79,8 +79,8 @@ fun HomeScreen(
                     imageSets.loadState.refresh is LoadState.Error -> {
                         val error = imageSets.loadState.refresh as LoadState.Error
 
-                        navController.navigate(NavigationItem.Home.route) {
-                            popUpTo(NavigationItem.Login.route) {
+                        navController.navigate(NavigationItem.Login.route) {
+                            popUpTo(NavigationItem.Home.route) {
                                 inclusive = true
                             }
                         }

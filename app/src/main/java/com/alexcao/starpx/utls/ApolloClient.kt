@@ -18,7 +18,6 @@ fun getApolloClient(token: String, repository: Repository): ApolloClient {
             val original = chain.request()
             val requestBuilder: Request.Builder = original.newBuilder()
                 .header("Content-Type", "application/json")
-                .header("Authorization", token)
             val request: Request = requestBuilder.build()
             chain.proceed(request)
         }
@@ -44,7 +43,7 @@ class AccessTokenInterceptor(val repository: Repository) : Interceptor {
             val newRequest = newRequestWithAccessToken(request, newAccessToken)
             return chain.proceed(newRequest)
         }
-        return response
+        else return response
     }
 
     private fun newRequestWithAccessToken(request: Request, accessToken: String): Request {
