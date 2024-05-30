@@ -1,20 +1,16 @@
 package com.alexcao.starpx.screen.home
 
 import android.content.Context
-import android.widget.Toast
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,13 +20,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.ImageLoader
 import coil.compose.AsyncImage
 import com.alexcao.starpx.navigation.NavigationItem
-import com.alexcao.starpx.screen.home.component.ImageCell
-import kotlinx.coroutines.flow.collectLatest
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun HomeScreen(
@@ -63,23 +55,26 @@ fun HomeScreen(
             LazyVerticalGrid(
                 modifier = Modifier.padding(padding),
                 columns = GridCells.Fixed(3),
+                contentPadding = PaddingValues(2.dp),
             ) {
                 items(
                     imageSets.itemCount,
+                    key = { index -> imageSets[index]!!.setId }
                 ) { index ->
-                    ImageCell(
-                        modifier = Modifier.padding(2.dp),
-                        thumbnail = imageSets[index]!!.imageDetail.thumbs.small,
-                        context = context,
-                        onClick = {
-                            val encodedUrl = URLEncoder.encode(
-                                imageSets[index]!!.imageDetail.fullUrl,
-                                StandardCharsets.UTF_8.toString(),
-                            )
-                            navController.navigate(
-                                "${NavigationItem.ImageDetail.route}/$encodedUrl"
-                            )
-                        }
+                    val url = imageSets[index]!!.imageDetail.thumbs.small
+                    AsyncImage(
+                        modifier = Modifier.clickable(
+                            onClick = {
+                                val fullUrl = imageSets[index]!!.imageDetail.fullUrl
+                                val encodedUrl = URLEncoder.encode(fullUrl, "utf-8")
+                                navController.navigate(
+                                    "${NavigationItem.ImageDetail.route}/$encodedUrl"
+                                )
+                            }
+                        ),
+                        model = url,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
                     )
                 }
 
