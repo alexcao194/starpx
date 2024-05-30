@@ -11,6 +11,7 @@ class RxPreferences @Inject constructor(
         const val KEY_PASSWORD = "password"
         const val KEY_TOKEN = "token"
         const val KEY_NEXT_TOKEN = "nextToken"
+        const val KEY_REFRESH_TOKEN = "refreshToken"
     }
 
     fun saveUsername(username: String) {
@@ -43,5 +44,13 @@ class RxPreferences @Inject constructor(
 
     fun saveNextToken(token: String?) {
         sharedPreferences.edit().putString(KEY_NEXT_TOKEN, token).apply()
+    }
+
+    fun saveRefreshToken(token: String) {
+        sharedPreferences.edit().putString(KEY_REFRESH_TOKEN, token).apply()
+    }
+
+    fun getRefreshToken(): String? {
+        return sharedPreferences.getString(KEY_REFRESH_TOKEN, "")
     }
 }

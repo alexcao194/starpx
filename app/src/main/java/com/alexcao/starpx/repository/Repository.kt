@@ -36,8 +36,10 @@ class Repository @Inject constructor(
         val password = account.password
         val session = awsClient.loginWithAWS(context, username, password)
         val jwt = session?.accessToken?.jwtToken ?: throw Exception("Failed to login")
+        val refreshToken = session.refreshToken?.token ?: throw Exception("Failed to login")
         Log.d(TAG, "login: $jwt")
         rxPreferences.saveJwt(jwt)
+        rxPreferences.saveRefreshToken(refreshToken)
         apolloClient = getApolloClient(token = jwt)
         return;
     }
