@@ -49,6 +49,7 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         viewModel.loginUiState.collectLatest {
             if (it.isSuccessful) {
+                viewModel.resetState()
                 navController.navigate(NavigationItem.Home.route) {
                     popUpTo(NavigationItem.Login.route) {
                         inclusive = true

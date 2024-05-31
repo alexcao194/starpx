@@ -33,12 +33,10 @@ import java.net.URLEncoder
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
-    context: Context
 ) {
     val imageSets = viewModel.pagingDataFlow.collectAsLazyPagingItems()
 
     Scaffold(
-        containerColor = Color.Black,
         floatingActionButton = {
             Button(
                 onClick = {
@@ -63,10 +61,7 @@ fun HomeScreen(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(2.dp),
             ) {
-                items(
-                    imageSets.itemCount,
-                    key = { index -> imageSets[index]!!.setId }
-                ) { index ->
+                items(imageSets.itemCount) { index ->
                     val url = imageSets[index]!!.imageDetail.thumbs.small
                     AsyncImage(
                         modifier = Modifier

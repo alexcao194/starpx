@@ -41,7 +41,6 @@ import java.io.IOException
 @Composable
 fun ImageDetailScreen(
     url: String,
-    navController: NavController,
     context: Context
 ) {
 

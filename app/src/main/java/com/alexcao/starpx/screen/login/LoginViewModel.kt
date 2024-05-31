@@ -22,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val repository: Repository,
-    private val rxPreferences: RxPreferences
 ) : ViewModel() {
     private val _loginUiState: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
     val loginUiState: StateFlow<LoginUiState> = _loginUiState.asStateFlow()
@@ -32,11 +31,21 @@ class LoginViewModel @Inject constructor(
     var password by mutableStateOf("")
         private set
 
+    private fun hasLoggedIn(): Boolean {
+        return repository.getJwt() != null
+    }
+
     init {
-        val savedUsername = rxPreferences.getUsername()
-        val savedPassword = rxPreferences.getPassword()
+        val savedUsername = repository.getUsername()
         username = savedUsername
-        password = savedPassword
+
+        viewModelScope.launch {
+            if (hasLoggedIn()) {
+                _loginUiState.update { it.copy(isSuccessful = true) }
+            } else {
+                _loginUiState.update { it.copy(isLoading = false) }
+            }
+        }
     }
 
     fun onUsernameChange(newUsername: String) {
@@ -50,17 +59,24 @@ class LoginViewModel @Inject constructor(
     fun clearError() {
         _loginUiState.update { it.copy(error = null) }
     }
+    fun resetState() {
+        _loginUiState.update { LoginUiState() }
+    }
 
     fun login() {
         Log.d("LoginViewModel", "Logging in with username: $username and password: $password")
-        rxPreferences.saveUsername(username)
-        rxPreferences.savePassword(password)
+        repository.saveUsername(username)
         viewModelScope.launch {
             _loginUiState.update { it.copy(isLoading = true) }
             try {
                 repository.login(Account(username = username, password = password))
             } catch (e: Exception) {
-                _loginUiState.update { it.copy(isLoading = false, error = e.message ?: "Login failed") }
+                _loginUiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = e.message ?: "Login failed"
+                    )
+                }
                 return@launch
             }
             _loginUiState.update { it.copy(isLoading = false, isSuccessful = true) }

@@ -26,7 +26,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: Repository,
-    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     val pagingDataFlow: Flow<PagingData<ImageSet>> = Pager(
             PagingConfig(pageSize = NETWORK_PAGE_SIZE)
