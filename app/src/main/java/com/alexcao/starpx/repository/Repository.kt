@@ -23,7 +23,6 @@ class Repository @Inject constructor(
     private val context: Context,
     private val rxPreferences: RxPreferences
 ) {
-
     private var apolloClient: ApolloClient? = null
 
     companion object {
@@ -55,7 +54,6 @@ class Repository @Inject constructor(
         token: String?,
         limit: Int,
     ): List<ImageSet> {
-
         if (apolloClient == null) {
             throw Exception("Apollo client is not initialized")
         }

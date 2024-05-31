@@ -36,7 +36,7 @@ fun AppNavHost(
                     type = NavType.StringType
                 }
             )
-            ) {
+        ) {
             val url = it.arguments?.getString("url")
             ImageDetailScreen(
                 url = url!!,

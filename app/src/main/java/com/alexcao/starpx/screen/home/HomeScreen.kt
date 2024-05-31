@@ -1,12 +1,10 @@
 package com.alexcao.starpx.screen.home
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
@@ -16,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -86,11 +83,9 @@ fun HomeScreen(
                 imageSets.loadState.refresh is LoadState.Loading -> {
                     CircularProgressIndicator()
                 }
-
                 imageSets.loadState.append is LoadState.Loading -> {
                     CircularProgressIndicator()
                 }
-
                 imageSets.loadState.refresh is LoadState.Error -> {
                     navController.navigate(NavigationItem.Login.route) {
                         popUpTo(NavigationItem.Home.route) {
@@ -98,7 +93,6 @@ fun HomeScreen(
                         }
                     }
                 }
-
                 imageSets.loadState.append is LoadState.Error -> {}
             }
         }

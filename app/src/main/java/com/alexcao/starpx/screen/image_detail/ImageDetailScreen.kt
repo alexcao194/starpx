@@ -43,7 +43,6 @@ fun ImageDetailScreen(
     url: String,
     context: Context
 ) {
-
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
