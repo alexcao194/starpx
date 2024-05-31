@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -97,6 +98,7 @@ fun LoginScreen(
                     onValueChange = { username ->
                         viewModel.onUsernameChange(username)
                     },
+                    singleLine = true,
                     label = {
                         Text(text = stringResource(id = R.string.username_label))
                     },
@@ -110,8 +112,10 @@ fun LoginScreen(
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
+                        imeAction = ImeAction.Done,
                     ),
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
                     label = {
                         Text(text = stringResource(R.string.password_label))
                     }
