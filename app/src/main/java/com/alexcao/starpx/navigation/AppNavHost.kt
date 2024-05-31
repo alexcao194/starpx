@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import com.alexcao.starpx.screen.home.HomeScreen
 import com.alexcao.starpx.screen.image_detail.ImageDetailScreen
 import com.alexcao.starpx.screen.login.LoginScreen
+import com.alexcao.starpx.screen.splash.SplashScreen
 import com.alexcao.starpx.type.GraphQLBoolean.Companion.type
 
 @Composable
@@ -20,7 +21,7 @@ fun AppNavHost(
     context: Context
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, NavigationItem.Home.route, modifier = modifier) {
+    NavHost(navController = navController, NavigationItem.Splash.route, modifier = modifier) {
         composable(NavigationItem.Home.route) {
             HomeScreen(
                 navController = navController,
@@ -45,6 +46,11 @@ fun AppNavHost(
                 url = url!!,
                 navController = navController,
                 context = context
+            )
+        }
+        composable(NavigationItem.Splash.route) {
+            SplashScreen(
+                navController = navController
             )
         }
     }
