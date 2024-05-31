@@ -36,7 +36,7 @@ class Repository @Inject constructor(
         val jwt = rxPreferences.getJwt()
 
         if (jwt != null) {
-            apolloClient = getApolloClient(token = jwt, repository = this)
+            apolloClient = getApolloClient(repository = this)
         }
     }
 
@@ -49,8 +49,7 @@ class Repository @Inject constructor(
         Log.d(TAG, "login: $jwt")
         rxPreferences.saveJwt(jwt)
         rxPreferences.saveRefreshToken(refreshToken)
-        apolloClient = getApolloClient(token = jwt, repository = this)
-        return;
+        apolloClient = getApolloClient(repository = this)
     }
 
     suspend fun getImages(

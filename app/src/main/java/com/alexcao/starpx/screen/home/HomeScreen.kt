@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,6 +55,7 @@ fun HomeScreen(
         }
     ) { padding ->
         Column(
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyVerticalGrid(
@@ -83,49 +86,26 @@ fun HomeScreen(
                         contentScale = ContentScale.Crop,
                     )
                 }
+            }
+            when {
+                imageSets.loadState.refresh is LoadState.Loading -> {
+                    CircularProgressIndicator()
+                }
 
-                when {
-                    imageSets.loadState.refresh is LoadState.Loading -> {
-                        item {
-                            Text(text = "Loading...", color = Color.White)
-                        }
-                    }
+                imageSets.loadState.append is LoadState.Loading -> {
+                    CircularProgressIndicator()
+                }
 
-                    imageSets.loadState.append is LoadState.Loading -> {
-                        item {
-                            Text(text = "Loading...", color = Color.White)
-                        }
-                    }
-
-                    imageSets.loadState.refresh is LoadState.Error -> {
-                        val error = imageSets.loadState.refresh as LoadState.Error
-
-                        navController.navigate(NavigationItem.Login.route) {
-                            popUpTo(NavigationItem.Home.route) {
-                                inclusive = true
-                            }
-                        }
-
-                        item {
-                            Text(
-                                text = "Error: ${error.error.localizedMessage}",
-                                color = Color.Red
-                            )
-                        }
-                    }
-
-                    imageSets.loadState.append is LoadState.Error -> {
-                        val error = imageSets.loadState.append as LoadState.Error
-                        item {
-                            Text(
-                                text = "Error: ${error.error.localizedMessage}",
-                                color = Color.Red
-                            )
+                imageSets.loadState.refresh is LoadState.Error -> {
+                    navController.navigate(NavigationItem.Login.route) {
+                        popUpTo(NavigationItem.Home.route) {
+                            inclusive = true
                         }
                     }
                 }
-            }
 
+                imageSets.loadState.append is LoadState.Error -> {}
+            }
         }
     }
 }

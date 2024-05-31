@@ -21,16 +21,11 @@ class ImagePagingSource(
         return try {
             val position = params.key ?: STARTING_PAGE_INDEX
             val images = repository.getImages(repository.getNextToken(), params.loadSize)
-            val nextKey = if (repository.getNextToken() == null) {
-                null
-            } else {
-                position + (params.loadSize / NETWORK_PAGE_SIZE)
-            }
 
             LoadResult.Page(
                 data = images,
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-                nextKey = nextKey
+                nextKey = if (images.isEmpty()) null else position + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

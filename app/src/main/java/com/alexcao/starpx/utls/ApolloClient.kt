@@ -12,7 +12,9 @@ import java.net.HttpURLConnection
 
 
 private const val BASE_URL = "https://api-dev.starpx.com/graphql"
-fun getApolloClient(token: String, repository: Repository): ApolloClient {
+fun getApolloClient(repository: Repository): ApolloClient? {
+    if (repository.getJwt() == null) return null
+
     val okHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val original = chain.request()
