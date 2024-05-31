@@ -8,7 +8,6 @@ class RxPreferences @Inject constructor(
 ) {
     companion object {
         const val KEY_USERNAME = "username"
-        const val KEY_PASSWORD = "password"
         const val KEY_TOKEN = "token"
         const val KEY_NEXT_TOKEN = "nextToken"
         const val KEY_REFRESH_TOKEN = "refreshToken"
@@ -18,16 +17,8 @@ class RxPreferences @Inject constructor(
         sharedPreferences.edit().putString(KEY_USERNAME, username).apply()
     }
 
-    fun savePassword(password: String) {
-        sharedPreferences.edit().putString(KEY_PASSWORD, password).apply()
-    }
-
     fun getUsername(): String {
         return sharedPreferences.getString(KEY_USERNAME, "") ?: ""
-    }
-
-    fun getPassword(): String {
-        return sharedPreferences.getString(KEY_PASSWORD, "") ?: ""
     }
 
     fun saveJwt(jwt: String) {
@@ -35,7 +26,7 @@ class RxPreferences @Inject constructor(
     }
 
     fun getJwt(): String? {
-        return sharedPreferences.getString(KEY_TOKEN, "")
+        return sharedPreferences.getString(KEY_TOKEN, null)
     }
 
     fun getNextToken(): String? {

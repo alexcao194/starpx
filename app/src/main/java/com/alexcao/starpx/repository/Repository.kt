@@ -96,6 +96,14 @@ class Repository @Inject constructor(
         return rxPreferences.getRefreshToken()
     }
 
+    fun getUsername(): String {
+        return rxPreferences.getUsername()
+    }
+
+    fun saveUsername(username: String) {
+        rxPreferences.saveUsername(username)
+    }
+
     fun logout() {
         rxPreferences.clear()
     }
