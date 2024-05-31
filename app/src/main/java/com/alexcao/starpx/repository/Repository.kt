@@ -28,7 +28,6 @@ class Repository @Inject constructor(
 
     companion object {
         const val TAG = "Repository"
-        const val NETWORK_PAGE_SIZE = 30
     }
 
     init {
