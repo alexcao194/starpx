@@ -8,9 +8,7 @@ class ImagePagingSource(
     private val repository: Repository,
 ) : PagingSource<String, ImageSet>() {
     override fun getRefreshKey(state: PagingState<String, ImageSet>): String? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey
-        }
+        return null
     }
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, ImageSet> {
